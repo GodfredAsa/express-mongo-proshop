@@ -68,3 +68,45 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+## FRONTEND 
+### DEPENDENCIES IN THE FRONTEND DIRECTORY 
+1. react-bootstrap 
+2. bootstrap 
+3. react icons
+</> `npm i react-bootstrap bootstrap react-icons`
+4. REACT ROUTER DOM `npm i react-router-dom`
+5. REACT ROUTER BOOTSTRAP `react-router-bootstrap`
+6. `npm i axios` use axios for api requests
+7. added a proxy to the package.json
+
+## BACKEND 
+
+INSTALLING NODEMON AND CONCURRENTLY.
+1. nodemon: auto app restarting
+2. concurrently enables running of both the server and client with a single command.
+NB: installed them ad dev dependencies as we don't need such behaviour in production.
+NB: run the command in the root directly 
+- in the package.json at the root directory add `type: module` to follow this approach just as seen on line 5
+`npm i -D nodemon concurrently`
+COMMAND FOR RUNNING BOTH SERVER AND CLIENT SAME TIME: `npm run dev`
+3. `npm i -D dotenv` as a dev dependency
+4. `npm i mongoose` root directory 
+5. ADDING A DATABASE SEEDER: THIS IS A FILE THAT POPULATES THE DB IN START OF THE APPLICATION. 
+6. encrypted passwords using `bcrypt` => </> `npm install bcryptjs`
+7. `npm install colors` Library for adding colors to the output of the terminal.
+
+NB: Every mongoose method returns a promise.
+NB: to run the seeders file in the terminal 
+
+SEEDING DATA INTO THE MONGO DB
+
+`node backend/seeder -d`: this runs the destroyedData method. The dash -d could be anything.
+
+- File: backend/seeder.js
+- script for running the file in package.json at the root directory line 12 and 13
+- `npm run data:import`: runs the importData function
+- `npm run data:destroy`: runs function that clears data from the db.
+NB: Built mine customized error Handler.
+
