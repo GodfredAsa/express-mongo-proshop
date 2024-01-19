@@ -80,6 +80,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 5. REACT ROUTER BOOTSTRAP `react-router-bootstrap`
 6. `npm i axios` use axios for api requests
 7. added a proxy to the package.json
+8. Install Redux `npm i @reduxjs/toolkit react-redux`: react redux is the bridge that connects redux and and react together NB: you can use redux without react you can use it with VUE, ANGULAR and EVEN REGULAR JS.
 
 ## BACKEND 
 
