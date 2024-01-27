@@ -3,7 +3,7 @@ import Product from "../model/productModel.js"
 
 // @desc Fetch All Products 
 // route /api/products
-// @access public (unprotected)
+// @access public (unprotected) | Public 
 const getProducts = asyncHandler (async (req, res) => {
     const products = await Product.find({});
     return res.json(products);

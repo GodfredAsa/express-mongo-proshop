@@ -111,3 +111,13 @@ SEEDING DATA INTO THE MONGO DB
 - `npm run data:destroy`: runs function that clears data from the db.
 NB: Built mine customized error Handler.
 
+
+#### JSON WEB TOKEN INSTALLATION AT ROOT DIR
+- `npm i jsonwebtoken`: runs function that clears data from the db.
+NB: The server stores the token in HTTP-Only Cookie
+
+`npm i cookie-parser ` enables parsing the cookie from the request object. and its enabled in server.js
+
+NB: Once the user registers we automatically log the user in.
+
+`npm i react-toastify` for notification 
