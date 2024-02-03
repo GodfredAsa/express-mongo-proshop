@@ -17,6 +17,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 url:`${PRODUCTS_URL}/${productId}` 
             }),
             keepUnusedDataFor: 5
+        }),
+
+        createProduct: builder.mutation({
+            query: ({
+                url: PRODUCTS_URL,
+                method: 'POST'
+            }),
+            // prevents the data from being cached.
+            invalidatesTags: ['Products'],
+            keepUnusedDataFor: 5
         })
     })
 })
@@ -24,4 +34,4 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 // naming convention of query 
 // getProducts => use + getProducts + Query === useGetProductsQuery
 // if its a mutation the Query changes to Mutation 
-export const { useGetProductsQuery, useGetProductDetailsQuery } = productsApiSlice;
+export const { useGetProductsQuery, useGetProductDetailsQuery, useCreateProductMutation } = productsApiSlice;
