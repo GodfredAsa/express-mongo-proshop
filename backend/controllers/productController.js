@@ -8,11 +8,12 @@ import User from '../model/userModel.js';
 // route GET /api/products
 // @access public (unprotected) | Public 
 const getPaginatedProducts = asyncHandler (async (req, res) => {
+    console.log('paginated products');
     const pageNumber = req.query.pageNumber;
     // search by case insensitive word
     const keyword = req.query.keyword ? {name: {$regex: req.query.keyword, $options: 'i'}} : {}
     if(pageNumber){
-        const pageSize = 2;
+        const pageSize = process.env.PAGINATION_LIMIT;
         // the query is used to get query param from the url 
         const page = Number(req.query.pageNumber) || 1;
 
@@ -20,9 +21,8 @@ const getPaginatedProducts = asyncHandler (async (req, res) => {
         const products = await Product
             .find({...keyword})
             .limit(pageSize)
-            .skip(pageSize * (page - 1))
+            .skip(pageSize * (page - 1));
 
-            // console.log(products);
         return res.json({
             products,
             page,
