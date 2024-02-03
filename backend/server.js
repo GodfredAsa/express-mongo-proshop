@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import usersRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+
 import { notFound, errorhandler } from "./middleware/errorMiddle.js";
 import cors from 'cors'
 
@@ -30,10 +32,18 @@ app.options(process.env.FRONTEND_URL, cors);
 // urls
 app.use("/api/products", productRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/orders", orderRoutes);
+
+// PAYPAL URL
+app.get('/api/config/paypal', (req, res)=> res.send({clientId: process.env.PAYPAL_CLIENT_ID}))
+
 
 
 // add errorHandler and notFound immediate after all the routes
 app.use(notFound);
 app.use(errorhandler);
 
-app.listen(port, () => console.log(`Server Running on ${port}`));
+app.listen(port, () => 
+{console.log(`Server Running on ${port}`)
+console.log(process.env.FRONTEND_URL);}
+);

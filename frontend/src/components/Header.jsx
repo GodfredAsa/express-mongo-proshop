@@ -1,13 +1,32 @@
 import React from 'react';
-
-import {Navbar, Nav, Container, Badge} from 'react-bootstrap';
-import {FaShoppingCart, FaUser } from 'react-icons/fa';
+import {Navbar, Nav, Container, Badge, NavDropdown} from 'react-bootstrap';
+import {FaLockOpen, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from "react-router-bootstrap";
 import logo from '../assets/logo.png'
-import { useSelector } from 'react-redux'
-const Header = () => {
+import { useSelector, useDispatch } from 'react-redux'
+import { useLogoutMutation } from '../slices/usersApiSlice';
+import { logout } from '../slices/authSlice';
+import { useNavigate } from 'react-router-dom';
+
+const Header = () => { 
 
   const {cartItems}  = useSelector((state) => state.cart);
+  const { userInfo }  = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const naviagte = useNavigate();
+
+  const [ logoutApiCall ] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      naviagte('/login')
+    } catch (error) {
+      console.log(error);
+    }
+    console.log('logging out ');
+  }
   return (
     <header>
         <Navbar bg='dark' variant='dark' expand='md' collapseOnSelect>
@@ -32,9 +51,18 @@ const Header = () => {
                         }
                         </Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to='/login'>
+
+                    { userInfo ? 
+                    (<NavDropdown title={userInfo.name} id='username'>
+                      <LinkContainer to={`/profile`}>
+                        <NavDropdown.Item><FaUser/>Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Item onClick={logoutHandler}><FaLockOpen/> Logout</NavDropdown.Item>
+                    </NavDropdown>) : 
+                    ( <LinkContainer to='/login'>
                         <Nav.Link> <FaUser/>Sign In</Nav.Link>
-                    </LinkContainer>
+                    </LinkContainer>)
+                    }
                 </Nav>
 
                 </Navbar.Collapse>

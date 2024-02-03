@@ -9,13 +9,15 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+    const token = generateToken(res, user._id);
 
+    console.log(token);
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      token
     });
   } else {
     res.status(401);
@@ -27,15 +29,18 @@ const authUser = asyncHandler(async (req, res) => {
 // route /api/users/register
 // @access public Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = res.body;
-  const userExists = await User.findOne(email);
+  console.log(req.body);
+  const { name, email, password } = req.body;
+
+  const userExists = await User.findOne({email});
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
   }
   const user = await User.create({ name, password, email });
   if (user) {
-    generateToken(res, user._id);
+    const token = generateToken(res, user._id);
+    console.log(token);
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -110,7 +115,23 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // route GET /api/users
 // @access Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-  return res.send("Get Users");
+  const users = await User.find({}).select('-password -__v');
+  return res.status(200).json(users);
+});
+
+const deleteUser = asyncHandler(async (req, res) => {
+    const userId = req.body.userId;
+    try {
+          const deletedUser = await User.findByIdAndDelete(req.body.userId);
+          if(!deletedUser){
+            res.status(404);
+            throw new Error("User not found")
+          }else{
+            res.status(200).json({ message: "user deleted"} ) 
+        }
+    } catch (error) {
+      console.log(error.message);
+    }
 });
 
 // @desc Get user by id
@@ -144,4 +165,5 @@ export {
   getUserById,
   deleteUserById,
   updateUser,
+  deleteUser
 };

@@ -10,13 +10,15 @@ import {
   getUserById,
   deleteUserById,
   updateUser,
+  deleteUser
 } from "../controllers/userController.js";
 const router = express.Router();
 
 // protected admin resource
 router.route("/")
       .post(registerUser)
-      .get(protect, admin, getUsers);
+      .get(protect, admin, getUsers)
+      .delete(protect, admin, deleteUser);
 
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
